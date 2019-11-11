@@ -9,16 +9,21 @@ class Reviews extends Component {
         reviews: []
     }
 
-componentWillMount = () => {
-    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/${this.props.shop.id}/reviews`, {
-        headers: {
-            accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`  
-        }
-    }).then((res) => {
-        this.setState({reviews: res.data.reviews})
-    }) 
+componentWillMount = async() => {
+    try {
+        await axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/${this.props.shop.id}/reviews`, {
+            headers: {
+                accept: "application/json",
+                "Access-Control-Allow-Origin": "*",
+                Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`  
+            }
+        }).then((res) => {
+            this.setState({reviews: res.data.reviews})
+        }) 
+    } catch(err) {
+        console.log(err)
+    }
+
 }
 
     render() {
